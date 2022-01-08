@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cheeseController = require("./controllers/cheeses");
 
 // Initialize application
 const app = express();
@@ -41,12 +42,8 @@ app.use(morgan("dev"));
 // body-parser middleware (JSON.parse)
 app.use(express.json());
 
-// Mount routes
-
-// index route
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// Mount router middleware
+app.use("/cheese", cheeseController);
 
 // Tell app to listen on PORT
 app.listen(PORT, () => {
