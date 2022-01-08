@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 // Initialize application
 const app = express();
@@ -9,9 +10,25 @@ const app = express();
 // Configure application settings
 require("dotenv").config();
 
-const { PORT = 3000 } = process.env;
+const { DATABASE_URL, PORT = 3000 } = process.env;
 
 // Connect to database
+
+mongoose.connect(DATABASE_URL);
+
+const db = mongoose.connection;
+
+db.on("error", (error) => {
+  console.log(`Error: ${error}`);
+});
+
+db.on("connected", () => {
+  console.log("mongoDB connected");
+});
+
+db.on("disconnected", () => {
+  console.log("mongoDB disconnected");
+});
 
 // Mount middleware
 
